@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Question{% endblock %}
+
+{% block body %}
+    <h1>Ajouter une Question</h1>
+
+    {{ include('question/_form.html.twig') }}
+
+    <a href="{{ path('app_quiz_questions', {'id': idquiz}) }}">retourner aux Questions</a>
+{% endblock %}

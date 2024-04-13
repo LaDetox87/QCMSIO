@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Theme{% endblock %}
+
+{% block body %}
+    <ul>
+        <form method="POST" action="{{ path('app_quiz_submit', {'id': quiz.id}) }}">
+        {% for question in questions %}
+
+            <li>
+                <p> {{ question.libelle }} </p>
+                <ul>
+                    <li>
+                        {% for answer in question.answers %}
+                            <p> {{ answer.libelle }} <input value="{{ answer.id }}" type="radio" name="question{{ question.id }}"> </p>
+                        {% endfor %}
+                    </li>
+                </ul>
+            </li>
+
+        {% endfor %}
+        <button type="submit"> Confirmer </button>
+        </form>
+    </ul>
+
+    <br>
+
+{% endblock %}
+
+

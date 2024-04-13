@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Theme{% endblock %}
+
+{% block body %}
+
+    <p> Note : {{ score }} % </p>
+
+    <ul>
+        <form id="mainform" action="{{ path('app_quiz_submit', {'id': quiz.id }) }}" method="POST">
+
+        {% for question in quiz.questions %}
+
+            <li>
+                <p> {{ question.libelle }} </p>
+                <ul>
+                    <li>
+                        <form id="form{{ question.id }}">
+
+                            {% for answer in question.answers %}
+
+                                {% if answer.isCorrect %}
+                                    <p style="color:green;"> {{ answer.libelle }} </p>
+
+                                {% elseif answer in answers %}
+                                    <p style="color:red;"> {{ answer.libelle }} </p>
+
+                                {% endif %}
+
+                            {% endfor %}
+                        </form>
+                    </li>
+                </ul>
+            </li>
+
+        {% endfor %}
+
+        </form>
+
+        <button type="submit" form="mainform" value="Confirmer2"> CONFIRMER </button>
+    </ul>
+
+    <br>
+
+{% endblock %}
+
+
