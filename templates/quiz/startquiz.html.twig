@@ -10,16 +10,21 @@
             <li>
                 <p> {{ question.libelle }} </p>
                 <ul>
-                    <li>
                         {% for answer in question.answers %}
-                            <p> {{ answer.libelle }} <input value="{{ answer.id }}" type="radio" name="question{{ question.id }}"> </p>
+
+                        <li>
+                            <label>
+                            {{ answer.libelle }}
+                                 <input value="{{ answer.id }}" type="radio" name="question{{ question.id }}">
+                            </label>
+                        </li>
+
                         {% endfor %}
-                    </li>
                 </ul>
             </li>
 
         {% endfor %}
-        <button type="submit"> Confirmer </button>
+        <button type="submit"> <a href="{{ path('app_quiz_submit', {'id': quiz.id}) }}"> Confirmer </a> </button>
         </form>
     </ul>
 

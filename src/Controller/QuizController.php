@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Quiz;
+use App\Entity\Question;
 use App\Form\QuizType;
 use App\Repository\AnswerRepository;
 use App\Repository\QuizRepository;
@@ -14,6 +15,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpClient\HttpClient;
 
 #[Route('/quiz')]
 class QuizController extends AbstractController
@@ -27,12 +30,18 @@ class QuizController extends AbstractController
     }
 
     #[Route('/startquiz/{id}', name: 'app_start_quiz', methods: ['GET'])]
-    public function startQuiz(QuestionRepository $questionRepository, int $id, QuizRepository $quizRepository): Response
+    public function startQuiz(QuestionRepository $questionRepository, int $id, QuizRepository $quizRepository, Request $request): Response
     {
+        $questions = $questionRepository->findByQuiz($id);
+        $quiz = $quizRepository->findOneBy(["id" => $id]);
+        /*$questionsJSON = [];
+        foreach($questions as $question){
+            $questionsJSON[] = $question->__ToJson();
+        }*/
         return $this->render('quiz/startquiz.html.twig', [
-            'questions' => $questionRepository->findByQuiz($id),
-            'quiz' => $quizRepository->findOneBy(["id" => $id]),
-        ]);
+            'quiz' => $quiz,
+            'questions' => $questions,
+        ]); 
     }
 
     #[Route('/quizsubmit/{id}', name: 'app_quiz_submit', methods: ['GET','POST'])]

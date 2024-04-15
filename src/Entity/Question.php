@@ -95,4 +95,17 @@ class Question
         return $this->getLibelle();
     }
 
+    public function __ToJson()
+    {
+        $answersjson = [];
+        foreach ($this->Answers as $answer){
+            $answersjson[] = $answer->__ToJson();
+        }
+        return [
+            "id" => $this->id,
+            "libelle" => $this->libelle,
+            "answers" => $answersjson,
+        ];
+    }
+
 }

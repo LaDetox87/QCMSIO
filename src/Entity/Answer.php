@@ -63,4 +63,13 @@ class Answer
 
         return $this;
     }
+
+    public function __ToJson()
+    {
+        return [
+            "id" => $this->id,
+            "libelle" => $this->libelle,
+            "iscorrect" => $this->isCorrect,
+        ];
+    }
 }
