@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Theme{% endblock %}
-
+{% block stylesheets %}{% endblock %}
 {% block body %}
-    <h2> Choisissez un Thème </h2>
-    <ul>
+    
+    <ul style="margin-left: 35%;">
         {% for theme in themes %}
             <li>
                 <div style="display:flex;">
-                    <a href="{{ path('app_theme_quizzes', {'id': theme.id}) }}"> <p> {{ theme.libelle }} </p> </a>
+                    <button class="button-54"><a href="{{ path('app_theme_quizzes', {'id': theme.id}) }}"> <p> {{ theme.libelle }} </p> </a> </button>
                     {% if is_granted("ROLE_ADMIN") %}
                         <a style="margin-left: 20px" href="{{ path('app_theme_delete', {'id': theme.id }) }}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
@@ -21,7 +21,6 @@
             </li>
         {% endfor %}
     </ul>
-
     <br></br>
 
     {% if is_granted("ROLE_ADMIN") %}
