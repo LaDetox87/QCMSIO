@@ -1,6 +1,8 @@
-- Documentation -
+-Documentation QCMSIO-
 
 -Recommandations-
+
+
 
   -Php-
   
@@ -20,6 +22,8 @@
   
 
 -Mise en place du projet-
+
+
 
   -Récupérer le projet -> dans un CMD tappez : git -clone https://github.com/LaDetox87/QCMSIO.git
   
