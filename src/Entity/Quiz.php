@@ -30,6 +30,9 @@ class Quiz
     #[ORM\OneToMany(targetEntity: Result::class, mappedBy: 'quiz')]
     private Collection $Results;
 
+    #[ORM\Column]
+    private ?bool $isGraded = null;
+
     public function __construct()
     {
         $this->Questions = new ArrayCollection();
@@ -133,6 +136,18 @@ class Quiz
                 $result->setQuiz(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isIsGraded(): ?bool
+    {
+        return $this->isGraded;
+    }
+
+    public function setIsGraded(bool $isGraded): static
+    {
+        $this->isGraded = $isGraded;
 
         return $this;
     }

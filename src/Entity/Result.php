@@ -16,9 +16,6 @@ class Result
     #[ORM\Column(nullable: true)]
     private ?int $score = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?bool $hasAnswered = null;
-
     #[ORM\ManyToOne(inversedBy: 'Results')]
     private ?Quiz $quiz = null;
 
@@ -38,18 +35,6 @@ class Result
     public function setScore(?int $score): static
     {
         $this->score = $score;
-
-        return $this;
-    }
-
-    public function isHasAnswered(): ?bool
-    {
-        return $this->hasAnswered;
-    }
-
-    public function setHasAnswered(?bool $hasAnswered): static
-    {
-        $this->hasAnswered = $hasAnswered;
 
         return $this;
     }
