@@ -1,0 +1,42 @@
+.navbar-nav, .nav-item{
+    list-style-type: none;
+    align-items: center;
+    text-decoration: none;
+    color : black;
+    margin: 0px;
+    font-weight: bold;
+}
+
+a, p, li{
+    list-style-type: none;
+    text-align: center;
+    text-decoration-line: none;
+    color : black;
+    margin: 0px;
+    font-weight: bold;
+}
+
+.button-54 {
+    font-family: "Open Sans", sans-serif;
+    font-size:small;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #8C52FF;
+    cursor: pointer;
+    border: 3px solid;
+    height: 2.5vw;
+    width: 25vw;
+    box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px, 5px 5px 0px 0px;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    margin-top: 2vw;
+    border-radius: 8px;
+  }
+  
+  .button-54:hover {
+    box-shadow: 0px 0px 0px 0px;
+    top: 5px;
+    left: 5px;
+  }
