@@ -22,11 +22,14 @@
                 </div>
             </li>
         {% endfor %}
+        {% if is_granted("ROLE_ADMIN") %}
+        <li>
+            <div style="display:flex;">
+                <button class="button-54"><a href="{{ path('app_theme_new') }}"> <p> + </p> </a> </button>
+            </div>
+        </li>
+        {% endif %}
     </ul>
     <br></br>
-
-    {% if is_granted("ROLE_ADMIN") %}
-        <a href="{{ path('app_theme_new') }}">Ajouter un Thème</a>
-    {% endif %}
 
 {% endblock %}
