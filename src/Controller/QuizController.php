@@ -135,15 +135,16 @@ class QuizController extends AbstractController
         ]);
     }
 
-    #[IsGranted("ROLE_ADMIN", message:"Seul un admin peut supprimer des quiz")]
-    #[Route('/{id}', name: 'app_quiz_delete', methods: ['POST'])]
-    public function delete(Request $request, Quiz $quiz, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$quiz->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($quiz);
-            $entityManager->flush();
-        }
+     #[IsGranted("ROLE_ADMIN", message:"Seul un admin peut supprimer des quiz")]
+     #[Route('/{id}', name: 'app_quiz_delete', methods: ['POST'])]
+     public function delete(Request $request, Quiz $quiz, EntityManagerInterface $entityManager): Response
+     {
+         if ($this->isCsrfTokenValid('delete'.$quiz->getId(), $request->request->get('_token'))) {
+             $entityManager->remove($quiz);
+             $entityManager->flush();
+         }
 
-        return $this->redirectToRoute('app_quiz_index', [], Response::HTTP_SEE_OTHER);
-    }
+         return $this->redirectToRoute('app_quiz_index', [], Response::HTTP_SEE_OTHER);
+     }
+
 }
