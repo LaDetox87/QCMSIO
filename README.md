@@ -1,6 +1,6 @@
 -Documentation QCMSIO-
 
--Recommandations-
+-RECOMMANDATIONS-
 
   -Php-
   
@@ -19,7 +19,7 @@
   -Github sera nécessaire pour récupérer le projet QCMSIO.
   
 
--Mise en place du projet-
+-MISE EN PLACE DU PROJET-
 
   -Récupérer le projet -> dans un CMD tappez : git -clone https://github.com/LaDetox87/QCMSIO.git
   
