@@ -4,31 +4,64 @@
 
 {% block body %}
     <ul>
-        <form method="POST" action="{{ path('app_quiz_submit', {'id': quiz.id}) }}">
-        {% for question in questions %}
+            {% for question in questions %}
 
-            <li>
-                <p> {{ question.libelle }} </p>
-                <ul>
-                        {% for answer in question.answers %}
+                <li>
+                    <p> {{ question.libelle }} </p>
+                    <ul>
+                            {% for answer in question.answers %}
 
-                        <li>
-                            <label>
-                            {{ answer.libelle }}
-                                 <input value="{{ answer.id }}" type="radio" name="question{{ question.id }}">
-                            </label>
-                        </li>
+                            <li>
+                                <label>
+                                {{ answer.libelle }}
+                                    <input id="{{ answer.id }}" value="{{ answer.id }}" type="radio" name="question{{ question.id }}" class="answers">
+                                </label>
+                            </li>
 
-                        {% endfor %}
-                </ul>
-            </li>
+                            {% endfor %}
+                    </ul>
+                </li>
 
-        {% endfor %}
-        <button type="submit"> <a href="{{ path('app_quiz_submit', {'id': quiz.id}) }}"> Confirmer </a> </button>
-        </form>
+            {% endfor %}
+            
     </ul>
+    <button onClick="envoiForm()" type="submit" id="envoyer"> Confirmer </button>
+    <p id="score"> </p>
 
-    <br>
+    <script>
+        async function envoiForm() 
+        {
+            answers = document.getElementsByClassName("answers");
+            answerstosend = [];
+
+             for (var answer of answers) {
+                if (answer.checked) {
+                    answerstosend.push(answer.defaultValue);
+                }
+            }
+
+            let response = await fetch("{{path('app_quiz_submit')}}", {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+
+                body: JSON.stringify(answerstosend)
+                })
+            .then(response => {
+                return response.json()
+            }).then(data => {
+                score = document.getElementById("score");
+                score.innerHTML = `Score final :${Math.round(data.score)}` + "%" ;
+                inputs = document.getElementsByTagName("input");
+                for (var input of inputs) {
+                    input.disabled = true;
+                }
+                button.disabled = true;
+            })
+        }
+    </script>
 
 {% endblock %}
 

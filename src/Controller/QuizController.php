@@ -34,45 +34,38 @@ class QuizController extends AbstractController
     {
         $questions = $questionRepository->findByQuiz($id);
         $quiz = $quizRepository->findOneBy(["id" => $id]);
-        /*$questionsJSON = [];
-        foreach($questions as $question){
-            $questionsJSON[] = $question->__ToJson();
-        }*/
+
         return $this->render('quiz/startquiz.html.twig', [
             'quiz' => $quiz,
             'questions' => $questions,
         ]); 
     }
 
-    #[Route('/quizsubmit/{id}', name: 'app_quiz_submit', methods: ['GET','POST'])]
-    public function submitQuiz(QuizRepository $quizRepository, int $id, AnswerRepository $answerRepository): Response
+    #[Route('/quizsubmit', name: 'app_quiz_submit', methods: ['GET','POST'])]
+    public function submitQuiz(Request $request, QuizRepository $quizRepository, AnswerRepository $answerRepository, EntityManagerInterface $entityManager): JsonResponse
     {
-        $quiz = $quizRepository->findOneBy(["id" => $id]);
-
-        $questions = $quiz->getQuestions();
-
-        $nbquestion = Count($questions);
-
         $score = 0;
+        $data = json_decode($request->getContent(), true);
 
-        foreach($questions as $question){
-            $answers=[];
-
-            $questionstring = 'question'.$question->getId();
-
-            $idanswer = $_POST[$questionstring];
-
-            $answer = $answerRepository->findOneBy(["id" => $idanswer]);
-
-            $answers[] = $answer->GetId();
-
-            $score = $answer->isIsCorrect() ? $score + (100/$nbquestion) : $score;
+        foreach($data as $answerKey => $answerValue){
+            $nbanswer = count($data);
+            $answer = $answerRepository->findOneBy(["id" => $answerValue]);
+            $score = $answer->isIsCorrect() ? $score + (100/$nbanswer) : $score;
         }
+            
+        /*foreach($questions as $question){
+            $answers=[];
+            $questionstring = 'question'.$question->getId();
+            $idanswer = $_POST[$questionstring];
+            $answer = $answerRepository->findOneBy(["id" => $idanswer]);
+            $answers[] = $answer->GetId();
+            $score = $answer->isIsCorrect() ? $score + (100/$nbanswer) : $score;
+        }*/
+        
+        
 
-        return $this->render('quiz/submitquiz.html.twig', [
-            'quiz' => $quiz,
-            'score' => $score,
-            'answers' => $answers,
+        return new JsonResponse([
+            "score" => $score,
         ]);
     }
 

@@ -6,8 +6,9 @@
     <h2> Choisissez un Quiz sur {{ theme.libelle }} </h2>
     <ul>
         {% for quiz in quizzes %}
-            <li>
+            
                 {% if is_granted("ROLE_ADMIN") %}
+                <li>
                     <div style="display:flex;">
                         <a href="{{ path('app_quiz_questions', {'id': quiz.id}) }}"> <p> {{ quiz.title }} </p> </a>
                         <a style="margin-left: 20px" href="{{ path('app_quiz_delete', {'id': quiz.id }) }}">
@@ -17,10 +18,13 @@
                             </svg> 
                         </a>
                     </div>
-                {% elseif is_granted("ROLE_USER") %}
+                </li>
+                {% elseif is_granted("ROLE_USER") and quiz.isPublished %}
+                <li>
                     <a href="{{ path('app_start_quiz', {'id': quiz.id}) }}"> <p> {{ quiz.title }} </p> </a>
+                </li>
                 {% endif %}
-            </li>
+
         {% endfor %}
     </ul>
 

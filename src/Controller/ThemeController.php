@@ -56,7 +56,7 @@ class ThemeController extends AbstractController
         ]);
     }
 
-    #[IsGranted("ROLE_ADMIN", message:"Seul un admin peut show des thèmes")]
+    #[IsGranted("ROLE_ADMIN", message:"Seul un admin peut edit des thèmes")]
     #[Route('/{id}/edit', name: 'app_theme_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Theme $theme, EntityManagerInterface $entityManager): Response
     {
