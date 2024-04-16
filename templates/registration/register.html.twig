@@ -20,11 +20,12 @@
 
                     {{ form_row(registrationForm.plainPassword) }}
 
+                    <div class="CGU">
+                        {{ form_row(registrationForm.agreeTerms, { label: 'Accepter les CGU'
+                        }) }}
+                    </div>
+                        <button type="submit" class="opacity">S'inscrire</button>
                     
-                    {{ form_row(registrationForm.agreeTerms, { label: 'Accepter les CGU'
-                    }) }}
-
-                    <button type="submit" class="opacity">S'inscrire</button>
                 {{ form_end(registrationForm) }}
                 </div>
             <div class="circle circle-two"></div>
