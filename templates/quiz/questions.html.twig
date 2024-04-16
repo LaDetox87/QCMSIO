@@ -4,6 +4,9 @@
 
 {% block body %}
     <h2> Voici les questions du Quiz : {{ quiz.title }}</h2>
+    <a href=" {{ path('app_theme_quizzes', {'id': quiz.theme.id}) }}"> <img style="width:75px;" src="{{ asset('img/retour.png') }}" alt="flèche retour"> </a>
+    <br> 
+    <br>
     <ul>
         {% for question in questions %}
             <li>
