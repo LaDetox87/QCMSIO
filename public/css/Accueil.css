@@ -16,6 +16,13 @@ a, p, li{
     font-weight: bold;
 }
 
+.poubelle{
+  margin-top: 2.1vw;
+  margin-left: 20px;
+  color: #8C52FF;
+  border-color: #8C52FF;
+}
+
 .button-54 {
     font-family: "Open Sans", sans-serif;
     font-size:small;

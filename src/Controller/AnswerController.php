@@ -79,14 +79,16 @@ class AnswerController extends AbstractController
     }
 
     #[IsGranted("ROLE_ADMIN", message:"Seul un admin peut supprimer des réponses")]
-    #[Route('/{id}', name: 'app_answer_delete', methods: ['POST'])]
-    public function delete(Request $request, Answer $answer, EntityManagerInterface $entityManager): Response
+    #[Route('/{id}/{idquestion}', name: 'app_answer_delete', methods: ['GET', 'POST'])]
+    public function delete(Request $request, Answer $answer, EntityManagerInterface $entityManager, QuestionRepository $questionRepository): Response
     {
+        $idquestion = $_GET['idquestion'];
+        $question = $questionRepository->findOneBy(["id" => $idquestion]);
         if ($this->isCsrfTokenValid('delete'.$answer->getId(), $request->request->get('_token'))) {
             $entityManager->remove($answer);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_answer_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_question_answers', ['id' => $idquestion], Response::HTTP_SEE_OTHER);
     }
 }
