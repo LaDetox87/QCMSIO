@@ -48,9 +48,12 @@ class QuizController extends AbstractController
         $data = json_decode($request->getContent(), true);
 
         foreach($data as $answerKey => $answerValue){
+            $res = [];
             $nbanswer = count($data);
             $answer = $answerRepository->findOneBy(["id" => $answerValue]);
             $score = $answer->isIsCorrect() ? $score + (100/$nbanswer) : $score;
+            $goodanswer = $answer->getQuestion()->getCorrectAnswers();
+            $res[] = [$answer,$goodanswer];
         }
             
         /*foreach($questions as $question){
@@ -66,6 +69,7 @@ class QuizController extends AbstractController
 
         return new JsonResponse([
             "score" => $score,
+            "res" => $res,
         ]);
     }
 

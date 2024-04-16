@@ -78,6 +78,18 @@ class Question
         return $this;
     }
 
+    public function getCorrectAnswers() : Collection
+    {
+        $answers = [];
+        foreach($this->getAnswers() as $answer) {
+            if($answer->isIsCorrect()) {
+                $answers[] = $answer;
+            }
+        }
+
+        return $answers;
+    }
+
     public function removeAnswer(Answer $answer): static
     {
         if ($this->Answers->removeElement($answer)) {

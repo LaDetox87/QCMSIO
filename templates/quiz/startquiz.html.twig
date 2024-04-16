@@ -53,12 +53,25 @@
                 return response.json()
             }).then(data => {
                 score = document.getElementById("score");
+                button = document.getElementById("envoyer");
                 score.innerHTML = `Score final :${Math.round(data.score)}` + "%" ;
                 inputs = document.getElementsByTagName("input");
                 for (var input of inputs) {
                     input.disabled = true;
                 }
                 button.disabled = true;
+                for (var tuple of data.res){
+                    if (tuple[0] in tuple[1]){
+                        x = document.getElementById(tuple[0]);
+                        x.backgroundcolor = "green";
+                        //$res = [[$answer],[$goodanswer]];
+                    }
+                    else{
+                        x = document.getElementById(tuple[0]);
+                        x.backgroundcolor = "red";
+                    }
+                    
+                }
             })
         }
     </script>
