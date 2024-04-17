@@ -9,11 +9,9 @@ use App\Repository\ThemeRepository;
 
 class IndexController extends AbstractController
 {
-    #[Route('', name: 'app_theme_index', methods: ['GET'])]
+    #[Route('/', name: 'app_index', methods: ['GET'])]
     public function index_theme(ThemeRepository $themeRepository): Response
     {
-        return $this->render('theme/accueil.html.twig', [
-            'themes' => $themeRepository->findAll(),
-        ]);
+        return $this->redirectToRoute('app_login');
     }
 }

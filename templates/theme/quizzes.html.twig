@@ -16,8 +16,8 @@
                 <li>
                     <div style="display:flex;">
                         <a href="{{ path('app_quiz_questions', {'id': quiz.id}) }}"> <button class="button-54"> <p> {{ quiz.title }} </p> </button> </a>
-                        {{ include('quiz/_delete_form.html.twig') }}
                         <button class="poubelle" ><a href="{{ path('app_quiz_edit', {'id': quiz.id}) }}"> <img style="width:16px;" src="{{ asset('img/edit.png') }}"> </a></button>
+                        {{ include('quiz/_delete_form.html.twig') }}
                     </div>
                 </li>
                 {% elseif is_granted("ROLE_USER") and quiz.isPublished %}

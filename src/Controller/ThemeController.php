@@ -17,6 +17,14 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/theme')]
 class ThemeController extends AbstractController
 {
+    #[Route('/', name: 'app_theme_index', methods: ['GET'])]
+    public function index_theme(ThemeRepository $themeRepository): Response
+    {
+        return $this->render('theme/accueil.html.twig', [
+            'themes' => $themeRepository->findAll(),
+        ]);
+    }
+
     #[Route('/{id}/quizzes', name: 'app_theme_quizzes', methods: ['GET','POST'])]
     public function themeQuizzes(QuizRepository $quizRepository, ThemeRepository $themeRepository, int $id): Response
     {
