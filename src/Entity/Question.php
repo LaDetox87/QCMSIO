@@ -19,7 +19,7 @@ class Question
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $libelle = null;
 
-    #[ORM\ManyToOne(inversedBy: 'Questions')]
+    #[ORM\ManyToOne(inversedBy: 'Questions', cascade: ["persist"])]
     private ?Quiz $quiz = null;
 
     #[ORM\OneToMany(targetEntity: Answer::class, mappedBy: 'question')]

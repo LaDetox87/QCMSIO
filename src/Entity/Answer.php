@@ -17,7 +17,7 @@ class Answer
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $libelle = null;
 
-    #[ORM\ManyToOne(inversedBy: 'Answers')]
+    #[ORM\ManyToOne(inversedBy: 'Answers', cascade: ["persist"])]
     private ?Question $question = null;
 
     #[ORM\Column(nullable: true)]

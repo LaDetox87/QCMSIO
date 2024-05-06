@@ -24,7 +24,7 @@ class Quiz
     #[ORM\OneToMany(targetEntity: Question::class, mappedBy: 'quiz')]
     private Collection $Questions;
 
-    #[ORM\ManyToOne(inversedBy: 'Quizzes')]
+    #[ORM\ManyToOne(inversedBy: 'Quizzes', cascade: ["persist"])]
     private ?Theme $theme = null;
 
     #[ORM\OneToMany(targetEntity: Result::class, mappedBy: 'quiz')]

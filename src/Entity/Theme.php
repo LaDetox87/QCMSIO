@@ -22,7 +22,7 @@ class Theme
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $lesson = null;
 
-    #[ORM\OneToMany(targetEntity: Quiz::class, mappedBy: 'theme')]
+    #[ORM\OneToMany(targetEntity: Quiz::class, mappedBy: 'theme', cascade: ['persist'])]
     private Collection $Quizzes;
 
     public function __construct()
