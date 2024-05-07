@@ -31,6 +31,7 @@ class ThemeRepository extends ServiceEntityRepository
                 ->getResult()
         ;
     }
+
     //    public function findOneBySomeField($value): ?Theme
     //    {
     //        return $this->createQueryBuilder('t')

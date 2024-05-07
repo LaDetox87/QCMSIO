@@ -21,6 +21,19 @@ class ResultRepository extends ServiceEntityRepository
         parent::__construct($registry, Result::class);
     }
 
+
+    public function VerifGraded($idQuiz, $idUser): bool
+    {
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.quiz_id = :idQuiz')
+            ->andWhere('r.user_id = :idUser')
+            ->setParameter('idQuiz', $idQuiz)
+            ->setParameter('idUser', $idUser)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     //    /**
     //     * @return Result[] Returns an array of Result objects
     //     */

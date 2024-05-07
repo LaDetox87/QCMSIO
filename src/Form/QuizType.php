@@ -16,6 +16,7 @@ class QuizType extends AbstractType
         $builder
             ->add('title')
             ->add('isPublished')
+            ->add('isGraded')
         ;
     }
 

@@ -33,6 +33,7 @@ class Quiz
     #[ORM\Column]
     private ?bool $isGraded = null;
 
+
     public function __construct()
     {
         $this->Questions = new ArrayCollection();
