@@ -14,8 +14,8 @@
                 <img src="https://raw.githubusercontent.com/hicodersofficial/glassmorphism-login-form/master/assets/illustration.png" alt="illustration" class="illustration" />
                 <h1 class="opacity">CONNEXION</h1>
                 <form class="Login" method="post">
-                    <input type="text" placeholder="PSEUDONYME" value="{{ last_username }}" name="_username" id="username" class="Login form-control" autocomplete="username" required autofocus/>
-                    <input type="password" placeholder="MOT DE PASSE" name="_password" id="password" class="Login form-control" autocomplete="current-password" required/>
+                    <input type="text" placeholder="PSEUDONYME" value="{{ last_username }}" name="_username" id="username" class="Login form-control" autocomplete="off" required autofocus/>
+                    <input type="password" placeholder="MOT DE PASSE" name="_password" id="password" class="Login form-control" autocomplete="off" required/>
                     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                     <button class="opacity" type="submit" >Se Connecter</button>
                 </form>

@@ -19,7 +19,7 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('username', TextType::class, [
-                'attr'=> ['placeholder' => 'PSEUDONYME'],
+                'attr'=> ['placeholder' => 'PSEUDONYME', 'autocomplete' => 'off'],
                 'label' => ' '
             ])
             ->add('agreeTerms', CheckboxType::class, [
@@ -34,7 +34,7 @@ class RegistrationFormType extends AbstractType
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password', 'placeholder' => 'MOT DE PASSE'],
+                'attr' => ['autocomplete' => 'off', 'placeholder' => 'MOT DE PASSE'],
 
                 'label' => ' ',
                 'constraints' => [

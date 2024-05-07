@@ -6,14 +6,16 @@ use App\Entity\Theme;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class ThemeType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('libelle')
-            ->add('lesson')
+        ->add('libelle', TextType::class, [
+            'attr'=> ['autocomplete' => 'off']
+        ])
         ;
     }
 
