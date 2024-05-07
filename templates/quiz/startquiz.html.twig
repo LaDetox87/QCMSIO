@@ -33,10 +33,12 @@
         {
             answers = document.getElementsByClassName("answers");
             answerstosend = [];
+            cpt_answer = 0;
 
-             for (var answer of answers) {
+            for (var answer of answers) {
                 if (answer.checked) {
                     answerstosend.push(answer.defaultValue);
+                    cpt_answer += 1;
                 }
             }
 
@@ -52,25 +54,30 @@
             .then(response => {
                 return response.json()
             }).then(data => {
-                score = document.getElementById("score");
-                button = document.getElementById("envoyer");
-                score.innerHTML = `Score final :${Math.round(data.score)}` + "%" ;
-                inputs = document.getElementsByTagName("input");
-                for (var input of inputs) {
-                    input.disabled = true;
+                if(data.nbquestions == cpt_answer)
+                {
+                    score = document.getElementById("score");
+                    button = document.getElementById("envoyer");
+                    score.innerHTML = `Score final : ${Math.round(data.score)}` + "%" ;
+                    inputs = document.getElementsByTagName("input");
+
+                    for (var input of inputs) {
+                        input.disabled = true;
+                    }
+
+                    button.disabled = true;
+
+                    for (var answers of data.res){
+                        label = document.getElementById(answers[1]).parentNode;
+                        label.style.color = "green";
+
+                        label = document.getElementById(answers[0]).parentNode;
+                        label.style.color = (answers[0] == answers[1]) ? "green" : "red";
+                    }
                 }
-                button.disabled = true;
-                for (var tuple of data.res){
-                    if (tuple[0] in tuple[1]){
-                        x = document.getElementById(tuple[0]);
-                        x.backgroundcolor = "green";
-                        //$res = [[$answer],[$goodanswer]];
-                    }
-                    else{
-                        x = document.getElementById(tuple[0]);
-                        x.backgroundcolor = "red";
-                    }
-                    
+                else
+                {
+                    alert("Vous n'avez pas répondu à toutes les questions")
                 }
             })
         }

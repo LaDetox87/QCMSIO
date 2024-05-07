@@ -78,7 +78,7 @@ class Question
         return $this;
     }
 
-    public function getCorrectAnswers() : Collection
+    public function getCorrectAnswers() : array
     {
         $answers = [];
         foreach($this->getAnswers() as $answer) {
