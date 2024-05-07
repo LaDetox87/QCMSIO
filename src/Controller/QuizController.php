@@ -46,30 +46,39 @@ class QuizController extends AbstractController
     {
         $score = 0;
         $data = json_decode($request->getContent(), true);
+        $first = true;
+        $res = [];
 
         foreach($data as $answerKey => $answerValue){
-            $res = [];
-            $nbanswer = count($data);
             $answer = $answerRepository->findOneBy(["id" => $answerValue]);
-            $score = $answer->isIsCorrect() ? $score + (100/$nbanswer) : $score;
-            $goodanswer = $answer->getQuestion()->getCorrectAnswers();
-            $res[] = [$answer,$goodanswer];
+            if($first){
+                $quiz = $answer->getQuestion()->getQuiz();
+                $nbquestions = count($quiz->getQuestions());
+                $first = false;
+            }
+            $score = $answer->isIsCorrect() ? $score + (100/$nbquestions) : $score;
+            $goodanswers = $answer->getQuestion()->getCorrectAnswers();
+            $restemp = [];
+
+            if(count($goodanswers)>1){
+                foreach($goodanswers as $goodanswer){
+                    $restemp[] = $goodanswer->getId();
+                }
+            }else{
+                $restemp[] = $answer->getId();
+            }
+
+            $goodanswers = $goodanswers[0];
+            $restemp[] = $goodanswers->getId();
+
+            $res[] = $restemp;
+            
         }
             
-        /*foreach($questions as $question){
-            $answers=[];
-            $questionstring = 'question'.$question->getId();
-            $idanswer = $_POST[$questionstring];
-            $answer = $answerRepository->findOneBy(["id" => $idanswer]);
-            $answers[] = $answer->GetId();
-            $score = $answer->isIsCorrect() ? $score + (100/$nbanswer) : $score;
-        }*/
-        
-        
-
         return new JsonResponse([
             "score" => $score,
             "res" => $res,
+            "nbquestions" => $nbquestions,
         ]);
     }
 
