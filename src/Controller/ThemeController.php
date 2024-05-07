@@ -31,6 +31,7 @@ class ThemeController extends AbstractController
         return $this->render('theme/quizzes.html.twig', [
             'quizzes' => $quizRepository->findQuizzes($id),
             'theme' => $themeRepository->findOneBy(["id" => $id]),
+            "answered" => false,
         ]);
     }
 

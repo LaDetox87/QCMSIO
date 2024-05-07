@@ -152,4 +152,20 @@ class Quiz
 
         return $this;
     }
+
+    public function __ToJson()
+    {
+        $questionsjson = [];
+        foreach ($this->Questions as $question){
+            $questionsjson[] = $question->__ToJson();
+        }
+        return [
+            "id" => $this->id,
+            "title" => $this->title,
+            "theme" => $this->theme,
+            "ispublished" => $this->isPublished,
+            "isgraded" => $this->isGraded,
+            "questions" => $questionsjson,
+        ];
+    }
 }

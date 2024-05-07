@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Quiz;
 use App\Entity\Question;
+use App\Entity\Result;
 use App\Form\QuizType;
 use App\Repository\AnswerRepository;
 use App\Repository\QuizRepository;
+use App\Repository\ResultRepository;
 use App\Repository\QuestionRepository;
 use App\Repository\ThemeRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -42,8 +44,9 @@ class QuizController extends AbstractController
     }
 
     #[Route('/quizsubmit', name: 'app_quiz_submit', methods: ['GET','POST'])]
-    public function submitQuiz(Request $request, QuizRepository $quizRepository, AnswerRepository $answerRepository, EntityManagerInterface $entityManager): JsonResponse
+    public function submitQuiz(Request $request, QuizRepository $quizRepository, AnswerRepository $answerRepository, EntityManagerInterface $entityManager, ResultRepository $resultRepository): JsonResponse
     {
+        $user = $this->getUser();
         $score = 0;
         $data = json_decode($request->getContent(), true);
         $first = true;
@@ -74,11 +77,22 @@ class QuizController extends AbstractController
             $res[] = $restemp;
             
         }
-            
+
+        if($quiz->isIsGraded()){ // si quiz noté
+            $result = new Result();
+            $result->setScore($score);
+            $result->setUser($user);
+            $entityManager->persist($result);
+            $quiz->addResult($result);
+            $entityManager->persist($quiz);
+            $entityManager->flush();
+        }
+
         return new JsonResponse([
             "score" => $score,
             "res" => $res,
             "nbquestions" => $nbquestions,
+            //"res" => $quiz->__ToJson(),
         ]);
     }
 
@@ -90,6 +104,41 @@ class QuizController extends AbstractController
             'quiz' => $quizRepository->findOneBy(["id" => $id]),
         ]);
     }
+
+    #[IsGranted("ROLE_ADMIN", message:"Seul un admin peut publier des quiz")]
+    #[Route('/{id}/publish', name: 'app_quiz_publish', methods: ['GET'])]
+    public function quizPublish(QuestionRepository $questionRepository, QuizRepository $quizRepository, int $id, EntityManagerInterface $entityManager): Response
+    {
+        $quiz = $quizRepository->findOneBy(["id" => $id]);
+
+        foreach($quiz->getQuestions() as $question){
+            if (!$question->getCorrectAnswers()){ // la question n'a aucune bonne réponse définie
+                return $this->render('quiz/edit.html.twig', [ // edit du quiz
+                    'quiz' => $quiz,
+                    'code' => 403,
+                ]);
+            }
+        }
+         
+        $quiz->setIsPublished(true);
+        $entityManager->persist($quiz);
+        $entityManager->flush();
+
+        return $this->redirectToRoute("app_theme_quizzes", ['id' => $quiz->getTheme()->getId()], Response::HTTP_SEE_OTHER);
+    }
+
+    #[IsGranted("ROLE_ADMIN", message:"Seul un admin peut dépublier des quiz")]
+    #[Route('/{id}/unpublish', name: 'app_quiz_unpublish', methods: ['GET'])]
+    public function quizUnPublish(QuestionRepository $questionRepository, QuizRepository $quizRepository, int $id, EntityManagerInterface $entityManager): Response
+    {
+        $quiz = $quizRepository->findOneBy(["id" => $id]);
+        $quiz->setIsPublished(false);
+        $entityManager->persist($quiz);
+        $entityManager->flush();
+
+        return $this->redirectToRoute("app_theme_quizzes", ['id' => $quiz->getTheme()->getId()], Response::HTTP_SEE_OTHER);
+    }
+
 
     #[IsGranted("ROLE_ADMIN", message:"Seul un admin peut créer des quiz")]
     #[Route('/new', name: 'app_quiz_new', methods: ['GET', 'POST'])]

@@ -17,12 +17,33 @@
                     <div style="display:flex;">
                         <a href="{{ path('app_quiz_questions', {'id': quiz.id}) }}"> <button class="button-54"> <p> {{ quiz.title }} </p> </button> </a>
                         <button class="poubelle" ><a href="{{ path('app_quiz_edit', {'id': quiz.id}) }}"> <img style="width:16px;" src="{{ asset('img/edit.png') }}"> </a></button>
+                        {% if (quiz.isPublished) %}
+                            <button class="poubelle"> <a style="color:green" href="{{ path('app_quiz_unpublish', {'id': quiz.id}) }}"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-unlock-fill" viewBox="0 0 16 16">
+                            <path d="M11 1a2 2 0 0 0-2 2v4a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h5V3a3 3 0 0 1 6 0v4a.5.5 0 0 1-1 0V3a2 2 0 0 0-2-2"/>
+                            </svg> <a> </button>
+                        {% else %}
+                            <button class="poubelle"> <a style="color:red" href="{{ path('app_quiz_publish', {'id': quiz.id}) }}"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock-fill" viewBox="0 0 16 16">
+                            <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2"/>
+                            </svg> <a> </button>
+                        {% endif %}
                         {{ include('quiz/_delete_form.html.twig') }}
                     </div>
                 </li>
                 {% elseif is_granted("ROLE_USER") and quiz.isPublished %}
                 <li>
-                    <a href="{{ path('app_start_quiz', {'id': quiz.id}) }}"> <p> {{ quiz.title }} </p> </a>
+                    {% for result in quiz.Results %}
+                        {% if result.user == app.user %} <!-- si il a déjà répondu !-->
+                            {% set answered = true %}
+
+                        {% endif %}
+                    {% endfor %}
+                            {% if answered %}
+                                <p> Note : {{ result.score }} </p>
+                            {% else %}
+                                <a href="{{ path('app_start_quiz', {'id': quiz.id}) }}"> <p> {{ quiz.title }} </p> </a>
+                            {% endif %}
+                    
+
                 </li>
                 {% endif %}
 

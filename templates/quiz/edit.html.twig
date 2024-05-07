@@ -3,6 +3,9 @@
 {% block title %}Edit Quiz{% endblock %}
 
 {% block body %}
+    {% if ( code is defined ) and code == 403 %}
+        <script> alert("Vous devez avoir au moins une réponse par question !"); </script>
+    {% endif %}
     <h1>Edit Quiz</h1>
 
     {{ include('quiz/_form.html.twig', {'button_label': 'Update'}) }}

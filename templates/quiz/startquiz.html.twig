@@ -25,7 +25,7 @@
             {% endfor %}
             
     </ul>
-    <button onClick="envoiForm()" type="submit" id="envoyer"> Confirmer </button>
+    <button onclick="envoiForm()" type="submit" id="envoyer"> Confirmer </button>
     <p id="score"> </p>
 
     <script>
@@ -77,10 +77,14 @@
                 }
                 else
                 {
-                    alert("Vous n'avez pas répondu à toutes les questions")
+                    //console.log(data.nbquestions, cpt_answer);
+                    alert("Vous n'avez pas répondu à toutes les questions");
                 }
             })
         }
+
+        /*boutton = document.getElementById("envoyer");
+        boutton.addEventListener("click", envoiForm());*/
     </script>
 
 {% endblock %}
