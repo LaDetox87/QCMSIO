@@ -87,7 +87,7 @@ class QuizController extends AbstractController
             $entityManager->persist($quiz);
             $entityManager->flush();
         }
-
+        
         return new JsonResponse([
             "score" => $score,
             "res" => $res,

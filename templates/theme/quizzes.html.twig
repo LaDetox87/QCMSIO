@@ -31,19 +31,20 @@
                 </li>
                 {% elseif is_granted("ROLE_USER") and quiz.isPublished %}
                 <li>
+                    {% set score = 0 %}
                     {% for result in quiz.Results %}
                         {% if result.user == app.user %} <!-- si il a déjà répondu !-->
                             {% set answered = true %}
-
+                            {% set score = result.score %}
                         {% endif %}
                     {% endfor %}
-                            {% if answered %}
-                                <p> Note : {{ result.score }} </p>
-                            {% else %}
-                                <a href="{{ path('app_start_quiz', {'id': quiz.id}) }}"> <p> {{ quiz.title }} </p> </a>
-                            {% endif %}
-                    
 
+                    {% if answered %}
+                        <p> {{ quiz.title }} : {{ score }} % </p>
+                    {% else %}
+                        <a href="{{ path('app_start_quiz', {'id': quiz.id}) }}"> <p> {{ quiz.title }} </p> </a>
+                    {% endif %}
+                    
                 </li>
                 {% endif %}
 
