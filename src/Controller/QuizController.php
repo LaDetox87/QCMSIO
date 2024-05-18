@@ -43,6 +43,20 @@ class QuizController extends AbstractController
         ]); 
     }
 
+    public function getResult($answers){
+        $score = 0;
+        foreach($answers as $answer){
+            $first = true;
+            if($first){
+                $quiz = $answer->getQuestion()->getQuiz();
+                $nbquestions = count($quiz->getQuestions());
+                $first = false;
+            }
+            $score = $answer->isIsCorrect() ? $score + (100/$nbquestions) : $score;
+        }
+        return $score;
+    }
+
     #[Route('/quizsubmit', name: 'app_quiz_submit', methods: ['GET','POST'])]
     public function submitQuiz(Request $request, QuizRepository $quizRepository, AnswerRepository $answerRepository, EntityManagerInterface $entityManager, ResultRepository $resultRepository): JsonResponse
     {
@@ -52,6 +66,13 @@ class QuizController extends AbstractController
         $first = true;
         $res = [];
 
+        $answersid = [];
+        foreach($data as $answerKey => $answerValue){
+            $answer = $answerRepository->findOneBy(["id" => $answerValue]);
+            $answers[] = $answer;
+        }
+
+        $score = $this->getResult($answers);
         foreach($data as $answerKey => $answerValue){
             $answer = $answerRepository->findOneBy(["id" => $answerValue]);
             if($first){
@@ -59,7 +80,6 @@ class QuizController extends AbstractController
                 $nbquestions = count($quiz->getQuestions());
                 $first = false;
             }
-            $score = $answer->isIsCorrect() ? $score + (100/$nbquestions) : $score;
             $goodanswers = $answer->getQuestion()->getCorrectAnswers();
             $restemp = [];
 
@@ -92,7 +112,6 @@ class QuizController extends AbstractController
             "score" => $score,
             "res" => $res,
             "nbquestions" => $nbquestions,
-            //"res" => $quiz->__ToJson(),
         ]);
     }
 
