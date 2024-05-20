@@ -18,6 +18,36 @@
   
   -Github sera nécessaire pour récupérer le projet QCMSIO.
   
+  -Php.ini-
+  retirer le ; avant ces lignes : 
+  
+    extension=ldap
+    extension=curl
+    extension=ffi
+    extension=ftp
+    extension=fileinfo
+    extension=gd
+    extension=gettext
+    extension=gmp
+    extension=intl
+    extension=imap
+    extension=mbstring
+    extension=exif      ; Must be after mbstring as it depends on it
+    extension=mysqli
+    extension=oci8_12c  ; Use with Oracle Database 12c Instant Client
+    extension=oci8_19  ; Use with Oracle Database 19 Instant Client
+    extension=odbc
+    extension=openssl
+    extension=pdo_firebird
+    extension=pdo_mysql
+    extension=pdo_oci
+    extension=pdo_odbc
+    extension=pdo_pgsql
+    extension=pdo_sqlite
+    extension=pgsql
+    extension=shmop
+
+    Ligne 920 à 944
 
 -MISE EN PLACE DU PROJET-
 
